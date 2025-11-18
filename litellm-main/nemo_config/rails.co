@@ -119,23 +119,83 @@ define flow check self_harm
     bot refer_support
     stop
 
+define flow check medical_advice
+  """Prevent medical diagnosis or dangerous self-treatment."""
+  $user_message = $user_input
+  if $user_message and ("diagnose" in $user_message or "is this disease" in $user_message)
+    bot refuse_medical
+    stop
+  if $user_message and ("take this medicine" in $user_message or "dose" in $user_message)
+    bot refuse_medical
+    stop
+
+define flow check legal_advice
+  """Prevent giving legal instructions or professional legal guidance."""
+  $user_message = $user_input
+  if $user_message and ("how to sue" in $user_message or "legal advice" in $user_message)
+    bot refuse_legal
+    stop
+  if $user_message and ("court case" in $user_message and "win" in $user_message)
+    bot refuse_legal
+    stop
+
 # ============================================================================
 # OUTPUT RAILS - Check LLM responses before returning to user
 # ============================================================================
 define flow check harmful output
   """Check if the bot's response contains harmful or inappropriate content."""
-  $bot_response = $bot_output
-  # Check for sensitive information leakage
-  if $bot_response and "password" in $bot_response
-    bot apologize
+  bot said something
+  if $contains_harmful_content
+    bot refuse harmful request
     stop
-  if $bot_response and "credit card" in $bot_response
-    bot apologize
+
+define flow check leaked information
+  """Check if the bot's response contains sensitive data leaks."""
+  bot said something
+  if $contains_sensitive_data
+    bot refuse sensitive info
     stop
-  # Check for harmful instructions
-  if $bot_response and "how to harm" in $bot_response
-    bot apologize
+
+define flow check policy compliance
+  """Check if the bot's response violates policy."""
+  bot said something
+  if $violates_policy
+    bot refuse harmful request
     stop
+
+define flow advanced input check
+  """Advanced input validation with multiple security checks."""
+  user said something
+  
+  # Check for jailbreak patterns
+  if $detect_jailbreak_attempt
+    bot refuse jailbreak
+    stop
+  
+  # Check for PII
+  if $contains_pii
+    bot refuse sensitive info
+    stop
+  
+  # Check for harmful intent
+  if $detect_harmful_intent
+    bot refuse harmful request
+    stop
+
+define flow advanced output check
+  """Advanced output validation with comprehensive safety checks."""
+  bot said something
+  
+  # Check output for harmful content
+  if $is_harmful_content
+    bot refuse harmful request
+    stop
+  
+  # Check for accidental data leaks
+  if $contains_sensitive_data
+    bot refuse sensitive info
+    stop
+
 define flow check policy violation
   """Check if the bot's response violates content policies."""
   # Use LLM-based self-checking for complex policy violations
@@ -150,6 +210,11 @@ define bot refuse jailbreak
 define bot refuse harmful request
   """Refuse harmful or inappropriate requests."""
   "I'm sorry, I cannot assist with that request. It goes against my guidelines to provide information that could be harmful or illegal."
+
+define bot refuse sensitive info
+  """Refuse requests involving sensitive information."""
+  "I cannot provide information involving sensitive or confidential data. Please rephrase your request without sensitive information."
+
 define bot apologize
   """Apologize when output is blocked."""
   "I apologize, but I cannot provide that response as it violates content safety policies."
@@ -165,6 +230,12 @@ define bot refuse sexual
 define bot refer_support
   """Refer user to support resources for self-harm."""
   "I'm sorry you're feeling this way. If you're in immediate danger, please contact your local emergency services. If you need someone to talk to, consider reaching out to a crisis hotline or a trusted person in your life."
+define bot refuse_medical
+  """Refuse detailed medical advice."""
+  "I'm not able to provide medical diagnoses or treatment advice. Please consult a medical professional."
+define bot refuse_legal
+  """Refuse legal professional advice."""
+  "I can't provide legal advice or instructions. Please consult a qualified legal professional."
 define bot greet
   """Greet the user."""
   "Hello! How can I help you today?"
