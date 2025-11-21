@@ -139,6 +139,30 @@ define flow check legal_advice
     bot refuse_legal
     stop
 
+define flow check financial_advice
+  """Prevent giving financial or investment instructions."""
+  $user_message = $user_input
+  if $user_message and ("invest" in $user_message or "buy stocks" in $user_message or "crypto tips" in $user_message)
+    bot refuse_financial
+    stop
+  if $user_message and ("guaranteed profit" in $user_message or "which stock to buy" in $user_message)
+    bot refuse_financial
+    stop
+
+define flow check political_influence
+  """Block political persuasion or election interference requests."""
+  $user_message = $user_input
+  if $user_message and ("convince people" in $user_message and "vote" in $user_message)
+    bot refuse_political
+    stop
+  if $user_message and ("help me win an election" in $user_message or "influence voters" in $user_message)
+    bot refuse_political
+    stop
+  if $user_message and ("create political propaganda" in $user_message)
+    bot refuse_political
+    stop
+
+
 # ============================================================================
 # OUTPUT RAILS - Check LLM responses before returning to user
 # ============================================================================
@@ -236,6 +260,13 @@ define bot refuse_medical
 define bot refuse_legal
   """Refuse legal professional advice."""
   "I can't provide legal advice or instructions. Please consult a qualified legal professional."
+define bot refuse_financial
+  """Refuse financial, investment, or trading advice."""
+  "I can't provide financial, investment, or trading advice. Please consult a certified financial professional for accurate guidance."
+define bot refuse_political
+  """Refuse political persuasion or election-related influence queries."""
+  "I can't assist with political persuasion, election influence, or partisan guidance. I can help with general, factual political information instead."
+
 define bot greet
   """Greet the user."""
   "Hello! How can I help you today?"

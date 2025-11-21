@@ -1,6 +1,0 @@
-models:
-  - type: main
-    engine: litellm
-    model: gemini/gemini-2.5-flash-lite
-    parameters:
-      api_key: AIzaSyA4Ulh5ES15bbzJsZ7ua8hfSFZyckrdOw4

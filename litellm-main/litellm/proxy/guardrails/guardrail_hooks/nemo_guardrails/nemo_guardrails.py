@@ -153,23 +153,20 @@ class NemoGuardrailsGuardrail(CustomGuardrail):
         
         # Map blocking phrases to policy names
         policy_mapping = {
-            "I'm sorry, I can't respond to that request. I'm designed to follow specific guidelines and I cannot ignore or change my instructions.": "Jailbreak Prevention",
-            "I'm sorry, I cannot assist with that request. It goes against my guidelines to provide information that could be harmful or illegal.": "Harmful Content Prevention",
-            "I apologize, but I cannot provide that response as it violates content safety policies.": "Content Safety Policy",
-            "I can't help with requests for personal or sensitive information such as social security numbers, passport numbers, bank or credit card details.": "PII Protection",
-            "I can't assist with attempts to bypass safety or moderation rules. Please ask a different question.": "Safety Bypass Prevention",
-            "I can't assist with explicit sexual content, pornography, or any sexual content involving minors or illegal situations.": "Sexual Content Prevention",
-            "I'm sorry you're feeling this way. If you're in immediate danger, please contact your local emergency services.": "Self-Harm Prevention",
-            "I cannot provide information about causing harm to others. Is there something else I can help you with?": "Violence Prevention",
-            "I cannot assist with illegal activities. I'm here to help with legitimate and legal inquiries.": "Illegal Activity Prevention",
-            "I'm designed to follow safety guidelines and cannot bypass my instructions. How else can I assist you?": "Instruction Bypass Prevention",
-            "Please don't share sensitive personal information like passwords, credit cards, or social security numbers.": "Sensitive Information Protection",
-            "I'm here to have respectful conversations. Let's keep things constructive.": "Toxicity Prevention",
-            "I cannot create malicious code or security exploits. I can help with legitimate programming questions instead.": "Malicious Code Prevention",
-            "I understand you may be frustrated. How can I help you in a constructive way?": "Respectful Interaction Policy",
-            "I'm not able to provide medical diagnoses or treatment advice. Please consult a medical professional.":"Medical Advice Policy prevention",
-            "I can't provide legal advice or instructions. Please consult a qualified legal professional.":"Legal Advice Policy Prevention"
-        }
+    "I'm sorry, I can't respond to that request. I'm designed to follow specific guidelines and I cannot ignore or change my instructions.": "Jailbreak Prevention",
+    "I'm sorry, I cannot assist with that request. It goes against my guidelines to provide information that could be harmful or illegal.": "Harmful Content Prevention",
+    "I cannot provide information involving sensitive or confidential data. Please rephrase your request without sensitive information.": "Sensitive Information Protection",
+    "I apologize, but I cannot provide that response as it violates content safety policies.": "Content Safety Policy Violation",
+    "I can't help with requests for personal or sensitive information such as social security numbers, passport numbers, bank or credit card details.": "PII Protection",
+    "I can't assist with attempts to bypass safety or moderation rules. Please ask a different question.": "Safety Bypass Prevention",
+    "I can't assist with explicit sexual content, pornography, or any sexual content involving minors or illegal situations.": "Sexual Content Prevention",
+    "I'm sorry you're feeling this way. If you're in immediate danger, please contact your local emergency services. If you need someone to talk to, consider reaching out to a crisis hotline or a trusted person in your life.": "Self-Harm Prevention",
+    "I'm not able to provide medical diagnoses or treatment advice. Please consult a medical professional.": "Medical Advice Prevention",
+    "I can't provide legal advice or instructions. Please consult a qualified legal professional.": "Legal Advice Prevention",
+     "I can't provide financial, investment, or trading advice. Please consult a certified financial professional for accurate guidance.": "Financial Advice Prevention",
+     "I can't assist with political persuasion, election influence, or partisan guidance. I can help with general, factual political information instead.": "Political Content Prevention",
+}
+
         
         # Check for exact or partial matches
         response_lower = response_text.lower()
@@ -222,30 +219,24 @@ class NemoGuardrailsGuardrail(CustomGuardrail):
         
         # Check for blocking phrases
         blocking_phrases = [
-                "I'm sorry, I can't respond to that request. I'm designed to follow specific guidelines and I cannot ignore or change my instructions.",
-                "I'm sorry, I cannot assist with that request. It goes against my guidelines to provide information that could be harmful or illegal.",
-                "I apologize, but I cannot provide that response as it violates content safety policies.",
-                "I can't help with requests for personal or sensitive information such as social security numbers, passport numbers, bank or credit card details.",
-                "I can't assist with attempts to bypass safety or moderation rules. Please ask a different question.",
-                "I can't assist with explicit sexual content, pornography, or any sexual content involving minors or illegal situations.",
-                "I'm sorry you're feeling this way. If you're in immediate danger, please contact your local emergency services. If you need someone to talk to, consider reaching out to a crisis hotline or a trusted person in your life.",
-                # legacy/short phrases for compatibility
-                "I'm sorry, I can't respond to that",
-                "I cannot assist with that",
-                "against my guidelines",
-                "inappropriate",
-                "I cannot provide information about causing harm to others. Is there something else I can help you with?",
-                "I cannot assist with illegal activities. I'm here to help with legitimate and legal inquiries.",
-                "I'm designed to follow safety guidelines and cannot bypass my instructions. How else can I assist you?",
-                "Please don't share sensitive personal information like passwords, credit cards, or social security numbers. How else can I help?",
-                "I'm here to have respectful conversations. Let's keep things constructive. What can I help you with?",
-                "I cannot create malicious code or security exploits. I can help with legitimate programming questions instead.",
-                "I understand you may be frustrated. How can I help you in a constructive way?",
-                "I'm sorry, I can't respond to that.",
-                "I'm not able to provide medical diagnoses or treatment advice. Please consult a medical professional.",
-                "I can't provide legal advice or instructions. Please consult a qualified legal professional."
+    "I'm sorry, I can't respond to that request. I'm designed to follow specific guidelines and I cannot ignore or change my instructions.",
+    "I'm sorry, I cannot assist with that request. It goes against my guidelines to provide information that could be harmful or illegal.",
+    "I cannot provide information involving sensitive or confidential data. Please rephrase your request without sensitive information.",
+    "I apologize, but I cannot provide that response as it violates content safety policies.",
+    "I can't help with requests for personal or sensitive information such as social security numbers, passport numbers, bank or credit card details.",
+    "I can't assist with attempts to bypass safety or moderation rules. Please ask a different question.",
+    "I can't assist with explicit sexual content, pornography, or any sexual content involving minors or illegal situations.",
+    "I'm sorry you're feeling this way. If you're in immediate danger, please contact your local emergency services. If you need someone to talk to, consider reaching out to a crisis hotline or a trusted person in your life.",
+    "I'm not able to provide medical diagnoses or treatment advice. Please consult a medical professional.",
+    "I can't provide legal advice or instructions. Please consult a qualified legal professional.",
+    "I'm sorry, I can't respond to that",
+    "I cannot assist with that",
+    "against my guidelines",
+    "inappropriate",
+     "I can't provide financial, investment, or trading advice. Please consult a certified financial professional for accurate guidance.",
+     "I can't assist with political persuasion, election influence, or partisan guidance. I can help with general, factual political information instead.",
+]
 
-            ]
         
         response_lower = response_text.lower()
         for phrase in blocking_phrases:
